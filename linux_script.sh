@@ -7,8 +7,15 @@ else
       echo "CREATE solutions.csv file"
 fi
 
+num_veicoli=0
+
+
+echo -n "Enter the first number --> "
+read num_veicoli
+
+
 for WORD in `cat files_1.txt`
 do
 echo $WORD
-java -jar solverVRP.jar -i $WORD -n 5
+java -jar solverVRP.jar -i $WORD -n $num_veicoli
 done
