@@ -9,7 +9,7 @@
 ```
 mkdir /path/to/your/project
 
-git clone git@bitbucket.org:marcosanfilippo/solvervrp.git
+git clone git@github.com:darioplatania/solverVRP.git
 ```
 
 ## Start linux
