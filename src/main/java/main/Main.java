@@ -14,20 +14,20 @@ import jsprit.analysis.toolbox.GraphStreamViewer.Label;
 import jsprit.core.algorithm.VehicleRoutingAlgorithm;
 import jsprit.core.algorithm.io.VehicleRoutingAlgorithms;
 import jsprit.core.algorithm.selector.SelectBest;
-import jsprit.core.algorithm.state.InternalStates;
-import jsprit.core.algorithm.state.StateManager;
+//import jsprit.core.algorithm.state.InternalStates;
+//import jsprit.core.algorithm.state.StateManager;
 import jsprit.core.algorithm.termination.TimeTermination;
 import jsprit.core.problem.VehicleRoutingProblem;
-import jsprit.core.problem.VehicleRoutingProblem.FleetSize;
+//import jsprit.core.problem.VehicleRoutingProblem.FleetSize;
 import jsprit.core.problem.solution.VehicleRoutingProblemSolution;
-import jsprit.core.problem.solution.route.VehicleRoute;
-import jsprit.core.problem.vehicle.Vehicle;
-import jsprit.core.reporting.SolutionPrinter;
+//import jsprit.core.problem.solution.route.VehicleRoute;
+//import jsprit.core.problem.vehicle.Vehicle;
+//import jsprit.core.reporting.SolutionPrinter;
 import jsprit.instance.reader.SolomonReader;
 import jsprit.util.*;
 import main.OROoptions.CONSTANTS;
 import main.OROoptions.PARAMS;
-import scala.Console;
+//import scala.Console;
 
 public class Main {
 			
@@ -45,10 +45,7 @@ public class Main {
 			VehicleRoutingProblem.Builder vrpBuilder = VehicleRoutingProblem.Builder.newInstance();
 			// A solomonReader reads solomon-instance files, and stores the required information in the builder.
 			new SolomonReader(vrpBuilder).read("input/" + options.get(PARAMS.INSTANCE));
-			
-			//set finite fleetsize
-			vrpBuilder.setFleetSize(FleetSize.FINITE);
-			
+
 			VehicleRoutingProblem vrp = vrpBuilder.build();			
 			
 			// Create the instace and solve the problem
@@ -61,15 +58,13 @@ public class Main {
 			// Extract the best solution
 			VehicleRoutingProblemSolution solution = new SelectBest().selectSolution(solutions);
 			
-			
-			
 			// Print solution on a file
 			OROutils.write(solution, (String)options.get(PARAMS.INSTANCE), System.currentTimeMillis()-startTime, (String)options.get(CONSTANTS.OUTPUT));
-			System.out.println(solution.getRoutes().size());
+			
 			// Print solution on the screen (optional)
 			//SolutionPrinter.print(vrp, solution, SolutionPrinter.Print.VERBOSE);
 			// Draw solution on the screen (optional)
-			new GraphStreamViewer(vrp, solution).labelWith(Label.ID).setRenderDelay(10).display();
+			//new GraphStreamViewer(vrp, solution).labelWith(Label.ID).setRenderDelay(10).display();
 		}
 	}
 	

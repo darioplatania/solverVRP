@@ -45,6 +45,8 @@ import java.util.List;
 *
 */
 public class RegretInsertion extends AbstractInsertionStrategy {
+	
+	static int job;
 
     static class ScoredJob {
 
@@ -225,6 +227,8 @@ public class RegretInsertion extends AbstractInsertionStrategy {
 	public Collection<Job> insertUnassignedJobs(Collection<VehicleRoute> routes, Collection<Job> unassignedJobs) {
         List<Job> badJobs = new ArrayList<Job>(unassignedJobs.size());
         List<Job> jobs = new ArrayList<Job>(unassignedJobs);
+		job = jobs.size();
+
 
         while (!jobs.isEmpty()) {
             List<Job> unassignedJobList = new ArrayList<Job>(jobs);
@@ -273,12 +277,17 @@ public class RegretInsertion extends AbstractInsertionStrategy {
         VehicleRoute bestRoute = null;
         VehicleRoute emptyRoute = null;
         double benchmark = Double.MAX_VALUE;
-        
-        int job = 100; //replace with total solomon instances
-        //int jobPerVehicle = balancingJobs(OROoptions.nVeicoli, job);
+
         
         if(routes.size()==OROoptions.nVeicoli && OROoptions.nVeicoli!=0) //------------- modifiche codice (solo if - else)
         {
+        	
+                  	
+
+        	int job = 100; //replace with total solomon instances
+            int jobPerVehicle = balancingJobs(OROoptions.nVeicoli, job);
+        	
+        	
             for (VehicleRoute route : routes) {
                 if (secondBest != null) {
                     benchmark = secondBest.getInsertionCost();

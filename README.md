@@ -9,7 +9,7 @@
 ```
 mkdir /path/to/your/project
 
-git clone git@github.com:darioplatania/solverVRP.git
+git clone git@bitbucket.org:marcosanfilippo/solvervrp.git
 ```
 
 ## Start linux
@@ -20,8 +20,9 @@ git clone git@github.com:darioplatania/solverVRP.git
 ```
 
 ## Start Windows
+
 ### click on start button & open command prompt
 ### go to the project folder and type
 ```
-run.bat
+win_script.bat
 ```

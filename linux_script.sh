@@ -10,12 +10,21 @@ fi
 num_veicoli=0
 
 
-echo -n "Enter the first number --> "
-read num_veicoli
-
-
-for WORD in `cat files_1.txt`
-do
-echo $WORD
-java -jar solverVRP.jar -i $WORD -n $num_veicoli
-done
+    read -p "Vuoi inserire il numero di veicoli y/n?" yn
+    case $yn in
+        [Yy]* )
+            echo -n "Quanti veicoli vuoi inserire?"
+            read num_veicoli
+            for WORD in `cat files_1.txt`
+            do
+            echo $WORD
+            java -jar solverVRP.jar -i $WORD -n $num_veicoli
+            done;;
+        [Nn]* )
+            for WORD in `cat files_1.txt`
+            do
+            echo $WORD
+            java -jar solverVRP.jar -i $WORD
+            done;;
+        * ) echo "Please answer yes or no.";;
+    esac

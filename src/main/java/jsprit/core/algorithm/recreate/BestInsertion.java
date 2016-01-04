@@ -58,6 +58,8 @@ import java.util.List;
  */
 public final class BestInsertion extends AbstractInsertionStrategy{
 
+	int job;
+	
 	private static Logger logger = LogManager.getLogger(BestInsertion.class);
 
 	private JobInsertionCostsCalculator bestInsertionCostCalculator;
@@ -73,6 +75,7 @@ public final class BestInsertion extends AbstractInsertionStrategy{
 
 	public BestInsertion(JobInsertionCostsCalculator jobInsertionCalculator, VehicleRoutingProblem vehicleRoutingProblem) {
 		super(vehicleRoutingProblem);
+		job = vehicleRoutingProblem.getJobs().size();
 		bestInsertionCostCalculator = jobInsertionCalculator;
 		logger.debug("initialise {}", this);
 	}
@@ -83,7 +86,7 @@ public final class BestInsertion extends AbstractInsertionStrategy{
 	}
 	
 	public static int balancingJobs(int veh, int job) {
-	    if(veh == 0) return job;
+	    //if(veh == 0) return job;
 		return Math.round(job / veh);
 	}
 
@@ -91,17 +94,23 @@ public final class BestInsertion extends AbstractInsertionStrategy{
 	public Collection<Job> insertUnassignedJobs(Collection<VehicleRoute> vehicleRoutes, Collection<Job> unassignedJobs) {
         List<Job> badJobs = new ArrayList<Job>(unassignedJobs.size());
         List<Job> unassignedJobList = new ArrayList<Job>(unassignedJobs);
+
+
         
-        int job = 100; //replace with total solomon instances
-        int jobPerVehicle = balancingJobs(OROoptions.nVeicoli, job);
-        
-        System.out.println("JobPerVehicle: " + jobPerVehicle);
+        //System.out.println("JobPerVehicle: " + jobPerVehicle);
         
         Collections.shuffle(unassignedJobList, random);
 		for(Job unassignedJob : unassignedJobList){			
 			Insertion bestInsertion = null;
 			double bestInsertionCost = Double.MAX_VALUE;
 			if(vehicleRoutes.size()==OROoptions.nVeicoli && OROoptions.nVeicoli!=0 ){ // ------------- if then aggiunto
+
+		        /*consider that can't have a division per 0 [IF in balancingJobs()] */				
+
+				int job = 100; //replace with total solomon instances
+		        int jobPerVehicle = balancingJobs(OROoptions.nVeicoli, job);
+
+		        
 				for(VehicleRoute vehicleRoute : vehicleRoutes){
 					InsertionData iData = bestInsertionCostCalculator.getInsertionData(vehicleRoute, unassignedJob, NO_NEW_VEHICLE_YET, NO_NEW_DEPARTURE_TIME_YET, NO_NEW_DRIVER_YET, bestInsertionCost); 
 					if(iData instanceof NoInsertionFound) continue;
@@ -109,8 +118,11 @@ public final class BestInsertion extends AbstractInsertionStrategy{
 						
 						if(jobPerVehicle < vehicleRoutes.size() ) {
 							bestInsertion = new Insertion(vehicleRoute,iData);
+
+							bestInsertionCost = iData.getInsertionCost();
+
 						bestInsertionCost = iData.getInsertionCost();
-						System.out.println("HERE I AM");
+
 						}
 					}
 				}
@@ -124,6 +136,7 @@ public final class BestInsertion extends AbstractInsertionStrategy{
 	                if (iData.getInsertionCost() < bestInsertionCost + noiseMaker.makeNoise()) {
 	                    bestInsertion = new Insertion(vehicleRoute, iData);
 	                    bestInsertionCost = iData.getInsertionCost();
+		                /* HERE THERE ISN'T BALACING BECAUSE THIS PART REPRODUCES L1 */
 	                }
 	            }
 	            VehicleRoute newRoute = VehicleRoute.emptyRoute();
